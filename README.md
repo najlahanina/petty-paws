@@ -1,3 +1,36 @@
+1.  Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+    - Membuat sebuah proyek Django baru.
+      Pertama, buat direktori baru untuk dijadikan lokal direktori dan repository github bernama petty-paws.
+      Kedua, buka direktori tersebut pada vscode dan jalankan git init, git config user.name, dan git config user.email pada terminal untuk kebutuhan repository github.
+      Ketiga, buat repository baru pada github bernama petty-paws.
+      Keempat, menjalankan perintah git branch -M main, git remote add origin https://github.com/najlahanina/petty-paws.git, dan git push -u origin main untuk membuat  branch dengan nama main, menghubungkan lokal direktori dengan repository github, dan uodate semua perubahan ke github.
+      Kelima, menjalankan perintah python3 -m venv env dan source env/bin/activate untuk membuat dan mengaktifkan virtual environment untuk directory yang akan digunakan untuk pengembangan proyek Django
+      Keenam, 
+
+    - Membuat aplikasi dengan nama main pada proyek tersebut.
+      Pertama, menjalankan perintah python3 manage.py startapp main untuk membuat app baru bernama main pada terminal yang sama.
+      Kedua, membuka file settings.py dan tambahkan 'main' pada variable INSTALLED_APPS.
+      Ketiga, dalam direktori main, membuat direktori baru bernama templates untuk menyimpan file html yang akan digunakan.
+      Keempat, pada direktori templates, buat file bernama main.html yang diisi dengan nama aplikasi, nama, npm, dan kelas.
+
+    - Melakukan routing pada proyek agar dapat menjalankan aplikasi main.
+      Pertama, buka file urls.py pada direktori petty_paws
+      Kedua, tambahkan import "from django.urls import path, include" dan pada variable urlpatters tambahkan path('', include('main.urls')).
+
+    - Membuat model pada aplikasi main dengan nama Product dan memiliki atribut wajib
+      Pertama, buka models.py dan isi dengan atribut yang diperlukan. Saya menggunakan
+
+
+    -  Membuat sebuah fungsi pada views.py untuk dikembalikan ke dalam sebuah template HTML yang menampilkan nama aplikasi serta nama dan kelas kamu.
+    - Membuat sebuah routing pada urls.py aplikasi main untuk memetakan fungsi yang telah dibuat pada views.py.
+    - Melakukan deployment ke PWS terhadap aplikasi yang sudah dibuat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet.
+
+2.  Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
+![](https://github.com/najlahanina/petty-paws/blob/main/BaganTugas2PBP.jpeg)
+
+Permintaan dari client dikirim melalui Internet, lalu diteruskan ke Python/Django dan diarahkan ke urls.py. Setelah itu, proses berlanjut ke views.py untuk memproses URL yang diminta. Dalam tahap ini, sistem membaca atau menulis data dari/ke models.py dan database. Data kemudian diinput atau ditampilkan melalui templates. File HTML yang sudah digabung dengan berbagai value yang dibutuhkan akan dikembalikan melalui Internet dan akhirnya ditampilkan di perangkat client.
+
+
 
 3.  Jelaskan fungsi git dalam pengembangan perangkat lunak!
     Git adalah salah satu jenis dari version control system yang populer digunakan oleh para programmer. Dengan berbagai fitur yang dimilikinya, Git biasa digunakan untuk memantau perubahan kode selama proses pengembangan perangkat lunak. Berikut adalah beberapa fungsi utama Git yang berguna dalam pengembangan pengembangan perangkat lunak:
