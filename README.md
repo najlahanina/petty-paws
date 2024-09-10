@@ -1,1 +1,15 @@
-PETTY PAWS
+
+3.  Jelaskan fungsi git dalam pengembangan perangkat lunak!
+    Git adalah salah satu jenis dari version control system yang populer digunakan oleh para programmer. Dengan berbagai fitur yang dimilikinya, Git biasa digunakan untuk memantau perubahan kode selama proses pengembangan perangkat lunak. Berikut adalah beberapa fungsi utama Git yang berguna dalam pengembangan pengembangan perangkat lunak:
+    - Membantu mengorganisir project
+      Dengan git, memungkinkan para programmer untuk memiliki salinan lengkap dari seluruh repository, termasuk riwayat perubahan, commit, dan branch. Hal itu karena fitur Distributed Version Control System (DVCS) yang dimiliki git. Dengan fitur tersebut yang tiap perubahannya dicatat dengan baik maka pengelolaan proyek menjadi lebih terorganisir dan konsisten.
+    - Memberikan fleksibilitas 
+      Git, yang merupakan perangkat lunak open source dan bersifat cross platform, dapat diinstal dan digunakan tanpa masalah di berbagai sistem operasi, seperti Windows, macOS, dan Linux. Ini memberikan fleksibilitas bagi para programmer dari berbagai latar belakang untuk bekerja dalam sistem operasi yang mereka suka.
+    - Memudahkan dalam berkolaborasi
+      Melalui fitur merging dan branching, Git juga sangat memudahkan kolaborasi antar developer. Setiap programmer memiliki kemampuan untuk membuat cabang baru untuk mengembangkan fitur atau memperbaiki bug tanpa mempengaruhi cabang utama. Setelah selesai, mereka dapat menggunakan perintah merge untuk menggabungkan perubahan kembali ke kode sumber utama. Selain itu, Git memungkinkan proses berbagi kode melalui fitur push dan pull, yang memudahkan pengintegrasian perubahan antar programmer. Caching dan kompresi data mendukung proses commit, branching, dan merge Git, yang membuatnya tetap cepat bahkan pada proyek yang besar.
+
+4.  Menurut Anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
+    Menurut saya, framework Django dijadikan permulaan untuk pembelajaran pengembangan perangkat lunak karena framework ini menggunakan bahasa Python sebagai basisnya. Seperti yang kita ketahui, Python merupakan bahasa pemrograman yang termasuk mudah untuk dipelajari untuk pemula karena sintaksnya yang sederhana dan bahasa yang digunakan masih mendekati bahasa “manusia”. Dengan struktur kode yang jelas tentunya akan memudahkan para developer untuk membaca dan memahaminya sehingga akan mempermudah mereka dalam pengembangan perangkat lunak. 
+
+5.  Mengapa model pada Django disebut sebagai ORM?
+    Model pada Django disebut dengan ORM (Object-Relational Mapping) karena model ini berfungsi untuk memetakan objek dalam Python ke dalam struktur basis data relasional. Model ini juga memungkinkan developer untuk berinteraksi dengan data menggunakan operasi objek Python tanpa harus menulis query SQL secara langsung. Selain itu, model pada Django disebut ORM karena model ini juga mendukung pengelolaan relasi antar model dalam basis data. Contohnya yaitu One-to-One, One-to-Many, dan Many-to-Many. Dengan didefinisikan menggunakan bidang ForeignKey, OneToOneField, dan ManyToManyField, developer akan mendapat relasi antar model secara intuitif dan model ini akan menangani pembuatan relasi tersebut dalam basis data secara otomatis.  
