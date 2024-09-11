@@ -36,6 +36,7 @@
   - Buka file urls.py pada direktori petty_paws
 
   - Tambahkan import "from django.urls import path, include" dan pada variable urlpatters tambahkan path('', include('main.urls')).
+  - Jalankan proyek dengan perintah python3 manage.py runserver dan buka http://localhost:8000/ utnuk melihat web yang sudah dibuat.
 
 4.Membuat model pada aplikasi main dengan nama Product dan memiliki atribut wajib
       
