@@ -101,11 +101,11 @@ Model pada Django disebut dengan ORM (Object-Relational Mapping) karena model in
 ## 2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
 XML dan JSON keduanya memiliki tujuan yang sama yaitu untuk menyimpan dan mengirimkan data. Namun, ada beberapa perbedaan antara keduanya yang membuat JSON lebih populer dibandingkan XML.
 
-1. Syntax yang digunakan dalam JSON cenderung lebih sederhana dan ringkas dibandingkan XML. Data di JSON diwakili oleh objek dan array yang mudah dibaca dan ditulis, sedangkan XML memerlukan tag pembuka dan penutup yang membuatnya lebih rumit dan panjang.
+- Syntax yang digunakan dalam JSON cenderung lebih sederhana dan ringkas dibandingkan XML. Data di JSON diwakili oleh objek dan array yang mudah dibaca dan ditulis, sedangkan XML memerlukan tag pembuka dan penutup yang membuatnya lebih rumit dan panjang.
 
-2. JSON terintegrasi dengan JavaScript  sehingga mempermudah pengembangan aplikasi web. Data dalam format JSON bisa langsung digunakan dalam kode JavaScript tanpa memerlukan parsing yang rumit, berbeda dengan XML yang membutuhkan parsing tambahan.
+- JSON terintegrasi dengan JavaScript  sehingga mempermudah pengembangan aplikasi web. Data dalam format JSON bisa langsung digunakan dalam kode JavaScript tanpa memerlukan parsing yang rumit, berbeda dengan XML yang membutuhkan parsing tambahan.
 
-3. Dokumentasi skema pada JSON bersifat sederhana dan lebih fleksibel. Sedangkan pada XML dokumentasi skema bersifat kompleks dan kurang fleksibel.
+- Dokumentasi skema pada JSON bersifat sederhana dan lebih fleksibel. Sedangkan pada XML dokumentasi skema bersifat kompleks dan kurang fleksibel.
 
 Meskipun secara umum JSON lebih baik dalam banyak kasus dibandingkan XML, XML tetap memiliki kelebihan dalam situasi tertentu. XML lebih fleksibel dalam mendukung struktur data yang kompleks, seperti data biner, timestamp, dan cocok untuk dokumen yang memerlukan markup atau metadata yang rumit. Jadi menurut saya, JSON lebih baik untuk pengiriman data sederhana dan efisien, sedangkan XML lebih cocok untuk dokumen dengan struktur data yang lebih kompleks. 
 
@@ -125,19 +125,65 @@ Hal tersebut bisa dimanfaatkan penyerang dengan mengarahkan pengguna untuk mengk
 ## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 1. Membuat input form untuk menambahkan objek model pada app sebelumnya.
 
-- Pada direktori utama, buat subdirektori bernama templates dan buat file baru bernama base.html. Kemudian isi file tersebut dengan kerangka umum untuk halaman pada proyek nantinya.
+- Pada direktori utama, buat subdirektori bernama templates dan buat file baru bernama base.html. Kemudian isi file tersebut dengan kerangka umum untuk halaman pada proyek nantinya seperti berikut:
+```html 
+  {% load static %}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {% block meta %} {% endblock meta %}
+    </head>
 
+    <body>
+      {% block content %} {% endblock content %}
+    </body>
+  </html>
+```
 - Buka file settings.py lalu tambahkan kode 'DIRS': [BASE_DIR / 'templates'] pada variabel TEMPLATES agar base.html terdeteksi sebagai template.
 
 - Ubah file main.html untuk menggunakan base.html sebagai template utama.
 
-- Buat file baru bernama forms.py pada direktori main dan mengisinya dengan struktur form yang dapat menerima data produk baru. "model = Product" menandakan bahwa isian form akan disimpan sebagai objek Product. "fields" menandakan objek Product memiliki 6 atribut yang dapat diisi melalui form.
+- Buat file baru bernama forms.py pada direktori main dan mengisinya dengan struktur form yang dapat menerima data produk baru seperti berikut
+```python
+  from django.forms import ModelForm
+  from main.models import Product
+
+  class  ProductForm(ModelForm):
+      class Meta:
+          model = Product
+          fields = ["name", "image", "brands", "price", "categories", "description"]
+```
+"model = Product" menandakan bahwa isian form akan disimpan sebagai objek Product. "fields" menandakan objek Product memiliki 6 atribut yang dapat diisi melalui form.
 
 - Tambah beberapa import pada file views.py untuk menyediakan akses ke form dan model yang dibutuhkan dalam menampilkan form, memvalidasi input, menyimpan data ke database, serta mengarahkan pengguna ke halaman lain setelah form diproses.
 
-- Setelah itu, buat fungsi baru bernama create_product yang menerima parameter request untuk menghasilkan form yang berguna menerima input user  untuk tambah data produk ketika data tersebut disubmit pada form.
+- Setelah itu, buat fungsi baru bernama create_product pd views.py yang menerima parameter request untuk menghasilkan form yang berguna menerima input user untuk tambah data produk ketika data tersebut disubmit pada form, seperti berikut:
+```python
+def create_product(request):
+    form = ProductForm(request.POST or None) 
 
-- Ubah fungsi show_main dengan menambahkan potongan kode berikut "products = Product.objects.all()" dan "'products': products". products akan menyimpan seluruh produk yang ada pada proyek saat ini.
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        return redirect('main:show_main')
+
+    context = {'form': form}
+    return render(request, "create_product.html", context)
+```
+- Ubah fungsi show_main pada views.py menjadi sebagai berikut:
+```python
+def show_main(request):
+    products = Product.objects.all()
+    context = {
+        'nama' : 'Nisa Najla Hanina Hasanah',
+        'kelas' : 'PBP A',
+        'products': products
+    }
+
+    return render(request, "main.html", context)
+```
+"products = Product.objects.all()" dan "'products': products". products akan menyimpan seluruh produk yang ada pada proyek saat ini.
 
 - Buat file baru pada direktori main/templates bernama create_product.html dan isi dengan kode berikut:
 ```html
@@ -161,27 +207,56 @@ Hal tersebut bisa dimanfaatkan penyerang dengan mengarahkan pengguna untuk mengk
 
   {% endblock %}
 ```
-  - {% block content %} ... {% endblock %} adalah konten yang akan mengisi placeholder block content pada base.html
-  - <form method="POST> karena user akan memberikan input
-
-  
+  - {% block content %} ... {% endblock %} merupakan bagian konten yang akan ditempatkan di dalam placeholder block content yang ada di file base.html.
+  - "<form method="POST"> karena user akan memberikan input"
 
 2. Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID.
 
 Pada file views.py tambahkan 4 fungsi berikut:
 
 - fungsi "show_xml" yang berfungsi untuk menampilkan representasi semua produk dalam format XML dan dapat diakses pada (url)/xml
-
+```python
+def show_xml(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+```
 - fungsi "show_json" yang berfungsi untuk menampilkan representasi semua produk dalam format JSON dan dapat diakses pada (url)/json
-
+```python
+def show_json(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+```
 - fungsi "show_xml_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format XML dan dapat diakses pada (url)/xml/(desired_id)
-
+```python
+def show_xml_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+```
 - fungsi "show_json_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format JSON dan dapat diakses pada (url)/json/(desired_id)
+```python
+def show_json_by_id(request, id):
+    data = Product.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+```
 
 3. Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
 
-Buka file urls.py pada direktori main lalu tambahkan import fungsi-fungsi yang sudah dicantumkan pada file views.py dan masukkan urlnya pada variable urlpattern.
+Buka file urls.py pada direktori main lalu tambahkan import fungsi-fungsi yang sudah dicantumkan pada file views.py dan masukkan urlnya pada variable urlpattern, seperti berikut:
+```python
+from django.urls import path
+from main.views import show_main, create_product, show_xml, show_json, show_xml_by_id, show_json_by_id
 
+app_name = 'main'
+
+urlpatterns = [
+    path('', show_main, name='show_main'),
+    path('create-product', create_product, name='create_product'),
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<str:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
+]
+```
 - (url)/create-product: Untuk user input product baru
 
 - (url)/xml: Untuk menampilkan representasi seluruh products dalam format XML
@@ -194,13 +269,13 @@ Buka file urls.py pada direktori main lalu tambahkan import fungsi-fungsi yang s
 
 ## Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md
 1. XML
-![]https://github.com/najlahanina/petty-paws/blob/main/SS%20XML.png
+![](https://github.com/najlahanina/petty-paws/blob/main/SS%20XML.png)
 
 2. JSON
-![]https://github.com/najlahanina/petty-paws/blob/main/SS%20JSON.png
+![](https://github.com/najlahanina/petty-paws/blob/main/SS%20JSON.png)
 
 3. XML by ID
-![]https://github.com/najlahanina/petty-paws/blob/main/SS%20XML%20by%20ID.png
+![](https://github.com/najlahanina/petty-paws/blob/main/SS%20XML%20by%20ID.png)
 
 4. JSON by ID
-![]https://github.com/najlahanina/petty-paws/blob/main/SS%20JSON%20by%20ID.png
+![](https://github.com/najlahanina/petty-paws/blob/main/SS%20JSON%20by%20ID.png)
