@@ -103,11 +103,11 @@ XML dan JSON keduanya memiliki tujuan yang sama yaitu untuk menyimpan dan mengir
 
 - Syntax yang digunakan dalam JSON cenderung lebih sederhana dan ringkas dibandingkan XML. Data di JSON diwakili oleh objek dan array yang mudah dibaca dan ditulis, sedangkan XML memerlukan tag pembuka dan penutup yang membuatnya lebih rumit dan panjang.
 
-- JSON terintegrasi dengan JavaScript  sehingga mempermudah pengembangan aplikasi web. Data dalam format JSON bisa langsung digunakan dalam kode JavaScript tanpa memerlukan parsing yang rumit, berbeda dengan XML yang membutuhkan parsing tambahan.
+- JSON terintegrasi dengan JavaScript sehingga mempermudah pengembangan aplikasi web. Data dalam format JSON bisa langsung digunakan dalam kode JavaScript tanpa memerlukan parsing yang rumit, berbeda dengan XML yang membutuhkan parsing tambahan.
 
-- Dokumentasi skema pada JSON bersifat sederhana dan lebih fleksibel. Sedangkan pada XML dokumentasi skema bersifat kompleks dan kurang fleksibel.
+- JSON juga didukung oleh berbagai API sehingga memudahkan developer dalam pengembangan web/aplikasi 
 
-Meskipun secara umum JSON lebih baik dalam banyak kasus dibandingkan XML, XML tetap memiliki kelebihan dalam situasi tertentu. XML lebih fleksibel dalam mendukung struktur data yang kompleks, seperti data biner, timestamp, dan cocok untuk dokumen yang memerlukan markup atau metadata yang rumit. Jadi menurut saya, JSON lebih baik untuk pengiriman data sederhana dan efisien, sedangkan XML lebih cocok untuk dokumen dengan struktur data yang lebih kompleks. 
+Dari kelebihan-kelebihan yang terdapat pada JSON, maka menurut saya lebih baik JSON dibandingkan dengan XML baik secara struktur, syntax, dan beberapa faktor lainnya.
 
 ## 3. Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
 Method is_valid() pada form Django berfungsi untuk memeriksa apakah data yang dikirim melalui form memenuhi syarat validasi yang telah didefinisikan. Method ini juga memastikan bahwa input dari pengguna sudah benar sebelum diproses lebih lanjut. Method ini akan memeriksa validitas data dengan melihat apakah semua field dalam form sesuai dengan aturan validasi. Jika semua data valid, method ini mengembalikan nilai True dan mengisi atribut cleaned_data yaitu sebuah dictionary berisi data yang sudah divalidasi dan siap digunakan. Jika data tidak valid, Django menambahkan pesan kesalahan ke form dan mengembalikan False dan memungkinkan penanganan error yang tepat.
@@ -143,7 +143,18 @@ Hal tersebut bisa dimanfaatkan penyerang dengan mengarahkan pengguna untuk mengk
 ```
 - Buka file settings.py lalu tambahkan kode 'DIRS': [BASE_DIR / 'templates'] pada variabel TEMPLATES agar base.html terdeteksi sebagai template.
 
-- Ubah file main.html untuk menggunakan base.html sebagai template utama.
+- Ubah file main.html untuk menggunakan base.html sebagai template utama dengan menambahkan kode berikut pada bagian atas dan bawah
+```html
+{% extends 'base.html' %}
+{% block content %}
+…
+{% endblock content %}
+```
+- Buka file models.py dan tambahkan import uuid
+
+- Jalankan perintah berikut untuk migrasi model:
+  python3 manage.py makemigrations
+  python3 manage.py migrate
 
 - Buat file baru bernama forms.py pada direktori main dan mengisinya dengan struktur form yang dapat menerima data produk baru seperti berikut
 ```python
@@ -157,7 +168,10 @@ Hal tersebut bisa dimanfaatkan penyerang dengan mengarahkan pengguna untuk mengk
 ```
 "model = Product" menandakan bahwa isian form akan disimpan sebagai objek Product. "fields" menandakan objek Product memiliki 6 atribut yang dapat diisi melalui form.
 
-- Tambah beberapa import pada file views.py untuk menyediakan akses ke form dan model yang dibutuhkan dalam menampilkan form, memvalidasi input, menyimpan data ke database, serta mengarahkan pengguna ke halaman lain setelah form diproses.
+- Tambah beberapa import sebagai berikut pada file views.py untuk menyediakan akses ke form dan model yang dibutuhkan dalam menampilkan form, memvalidasi input, menyimpan data ke database, serta mengarahkan pengguna ke halaman lain setelah form diproses.
+  from django.shortcuts import render, redirect
+  from main.forms import ProductForm
+  from main.models import Product
 
 - Setelah itu, buat fungsi baru bernama create_product pd views.py yang menerima parameter request untuk menghasilkan form yang berguna menerima input user untuk tambah data produk ketika data tersebut disubmit pada form, seperti berikut:
 ```python
@@ -185,6 +199,8 @@ def show_main(request):
 ```
 "products = Product.objects.all()" dan "'products': products". products akan menyimpan seluruh produk yang ada pada proyek saat ini.
 
+- Pada file urls.py di direktori main, import fungsi create_product dan tambahkan path URLnya ke dalam variable urlpatterns.
+
 - Buat file baru pada direktori main/templates bernama create_product.html dan isi dengan kode berikut:
 ```html
   {% extends 'base.html' %} 
@@ -207,41 +223,78 @@ def show_main(request):
 
   {% endblock %}
 ```
-  - {% block content %} ... {% endblock %} merupakan bagian konten yang akan ditempatkan di dalam placeholder block content yang ada di file base.html.
-  - "<form method="POST"> karena user akan memberikan input"
+- Pada file main.html, tambahkan kode berikut ke dalam {% block content %}  untuk representasi data produk ke dalam bentuk tabel dan menambahkan tombol Add New Product Entry yang akan redirect ke form page
+```html
+{% if not products %}
+<p>Belum ada data produk pada Petty Paws.</p>
+{% else %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Brands</th>
+        <th>Price</th>
+        <th>Categories</th>
+        <th>Description</th>
+    </tr>
+        
+    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini 
+    {% endcomment %}
+    {% for product in products %}
+    <tr>
+        <td>{{product.name}}</td>
+        <td><img src="{{product.image}}" alt="{{product.name}}" style="width: 200px; height: 200px;"></td>
+        <td>{{product.brands}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.categories}}</td>
+        <td>{{product.description}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+        
+<br />
+        
+<a href="{% url 'main:create_product' %}">
+    <button>Add New Product</button>
+</a>
+```
+- Jalankan server dengan perintah python3 manage.py runserver dan masuk ke http://localhost:8000/ untuk menambahkan produk.
 
 2. Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID.
 
-Pada file views.py tambahkan 4 fungsi berikut:
+- Pada file views.py, tambahkan import HttpResponse dan Serializer pada bagian paling atas.
 
-- fungsi "show_xml" yang berfungsi untuk menampilkan representasi semua produk dalam format XML dan dapat diakses pada (url)/xml
-```python
-def show_xml(request):
-    data = Product.objects.all()
-    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
-```
-- fungsi "show_json" yang berfungsi untuk menampilkan representasi semua produk dalam format JSON dan dapat diakses pada (url)/json
-```python
-def show_json(request):
-    data = Product.objects.all()
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
-```
-- fungsi "show_xml_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format XML dan dapat diakses pada (url)/xml/(desired_id)
-```python
-def show_xml_by_id(request, id):
-    data = Product.objects.filter(pk=id)
-    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
-```
-- fungsi "show_json_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format JSON dan dapat diakses pada (url)/json/(desired_id)
-```python
-def show_json_by_id(request, id):
-    data = Product.objects.filter(pk=id)
-    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
-```
+- Pada file views.py, tambahkan 4 fungsi berikut yang menerima parameter request:
+
+  - fungsi "show_xml" yang berfungsi untuk menampilkan representasi semua produk dalam format XML dan dapat diakses pada (url)/xml
+  ```python
+  def show_xml(request):
+      data = Product.objects.all()
+      return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+  ```
+  - fungsi "show_json" yang berfungsi untuk menampilkan representasi semua produk dalam format JSON dan dapat diakses pada (url)/json
+  ```python
+  def show_json(request):
+      data = Product.objects.all()
+      return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+  ```
+  - fungsi "show_xml_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format XML dan dapat diakses pada (url)/xml/(desired_id)
+  ```python
+  def show_xml_by_id(request, id):
+      data = Product.objects.filter(pk=id)
+      return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+  ```
+  - fungsi "show_json_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format JSON dan dapat diakses pada (url)/json/(desired_id)
+  ```python
+  def show_json_by_id(request, id):
+      data = Product.objects.filter(pk=id)
+      return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+  ```
 
 3. Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
 
-Buka file urls.py pada direktori main lalu tambahkan import fungsi-fungsi yang sudah dicantumkan pada file views.py dan masukkan urlnya pada variable urlpattern, seperti berikut:
+- Buka file urls.py pada direktori main lalu tambahkan import fungsi-fungsi yang sudah dicantumkan pada file views.py dan masukkan urlnya pada variable urlpattern, seperti berikut:
 ```python
 from django.urls import path
 from main.views import show_main, create_product, show_xml, show_json, show_xml_by_id, show_json_by_id
@@ -257,17 +310,24 @@ urlpatterns = [
     path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
 ]
 ```
-- (url)/create-product: Untuk user input product baru
+- Jalankan server dengan perintah python3 manage.py runserver dan masuk ke:
 
-- (url)/xml: Untuk menampilkan representasi seluruh products dalam format XML
+  - http://localhost:8000/xml/: Untuk menampilkan representasi seluruh products dalam format XML
 
-- (url)/json: Untuk menampilkan representasi seluruh products dalam format JSON
+  - http://localhost:8000/json/: Untuk menampilkan representasi seluruh products dalam format JSON
 
-- (url)/xml/(desired_id): Untuk menampilkan representasi product dengan id yang diinginkan dalam format XML
+  - http://localhost:8000/xml/[id]/: Untuk menampilkan representasi product dengan id yang diinginkan dalam format XML
 
-- (url)/xml/(desired_id): Untuk menampilkan representasi product dengan id yang diinginkan dalam format JSON
+  - http://localhost:8000/json/[id]/: Untuk menampilkan representasi product dengan id yang diinginkan dalam format JSON
 
 ## Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md
+- Jalankan proyek dengan perintah python3 manage.py runserver
+
+- Buka Postman lalu buat request baru dengan method GET dan masukkan url http://localhost:8000/xml/ atau http://localhost:8000/json/ lalu klik button send.
+
+- Selain itu juga bisa memasukkan url http://localhost:8000/xml/[id] atau http://localhost:8000/json/[id] untuk pengambilan data berdasarkan ID.
+
+Screenshot hasil akses URL pada Postman
 1. XML
 ![](https://github.com/najlahanina/petty-paws/blob/main/SS%20XML.png)
 
