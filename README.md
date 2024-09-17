@@ -1,3 +1,4 @@
+## TUGAS 2
 ## 1.  Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 1.Membuat sebuah proyek Django baru.
       
@@ -89,11 +90,13 @@ Selain itu, Django juga merupakan framework yang bersifat open source. Hal itu m
 Model pada Django disebut dengan ORM (Object-Relational Mapping) karena model ini berfungsi untuk memetakan data dari database relasional dengan objek dalam kode pemrograman yaitu Python. Model ini juga memungkinkan developer untuk berinteraksi dengan data menggunakan operasi objek Python tanpa harus menulis query SQL secara langsung. Dengan Django ORM merepresentasikan tabel di database dan setiap atribut model adalah kolom dari tabel tersebut. ORM otomatis menangani hubungan antara tabel, membuat operasi data menjadi lebih mudah dan abstrak.
 
 
-
+## TUGAS 3
 ## 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
-Berguna untuk konektivitas antar komponen karena platform terdiri dari berbagai komponen seperti database, server aplikasi, dan front-end. Dengan data delivery maka data dapat dipindahkan di antara komponen-komponen tersebut dengan cara yang efisien sehingga dapat bekerja dengan baik.
-Menjaga keamanan data karena semakin tingginya ancaman keamanan siber. Data delivery dapat melindungi data tersebut  agar tetap rahasia selama transmisi dengan menerapkan enkripsi dan otentikasi. Enkripsi adalah mengubah data menjadi bentuk yang tidak terbaca sedangkan otentikasi untuk memastikan bahwa yang terlibat dalam pertukaran data adalah pihak yang sah. 
-Dapat mengelola trafik dan kinerja. Dalam platform yang berskala besar, jumlah data yang dikirim biasanya juga akan besar dan kompleks. Dengan data delivery, platform dapat mengelola trafik yang tinggi dengan menggunakan teknik load balancing dan caching. 
+- Berguna untuk konektivitas antar komponen karena platform terdiri dari berbagai komponen seperti database, server aplikasi, dan front-end. Dengan data delivery maka data dapat dipindahkan di antara komponen-komponen tersebut dengan cara yang efisien sehingga dapat bekerja dengan baik.
+
+- Menjaga keamanan data karena semakin tingginya ancaman keamanan siber. Data delivery dapat melindungi data tersebut  agar tetap rahasia selama transmisi dengan menerapkan enkripsi dan otentikasi. Enkripsi adalah mengubah data menjadi bentuk yang tidak terbaca sedangkan otentikasi untuk memastikan bahwa yang terlibat dalam pertukaran data adalah pihak yang sah. 
+
+- Dapat mengelola trafik dan kinerja. Dalam platform yang berskala besar, jumlah data yang dikirim biasanya juga akan besar dan kompleks. Dengan data delivery, platform dapat mengelola trafik yang tinggi dengan menggunakan teknik load balancing dan caching. 
 
 ## 2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
 XML dan JSON keduanya memiliki tujuan yang sama yaitu untuk menyimpan dan mengirimkan data. Namun, ada beberapa perbedaan antara keduanya yang membuat JSON lebih populer dibandingkan XML.
@@ -132,11 +135,12 @@ Hal tersebut bisa dimanfaatkan penyerang dengan mengarahkan pengguna untuk mengk
 
 - Tambah beberapa import pada file views.py untuk menyediakan akses ke form dan model yang dibutuhkan dalam menampilkan form, memvalidasi input, menyimpan data ke database, serta mengarahkan pengguna ke halaman lain setelah form diproses.
 
-- Setelah itu, buat fungsi baru bernama create_product yang menerima parameter request untuk menghasilkan form untuk tambah data produk ketika data tersebut disubmit pada form.
+- Setelah itu, buat fungsi baru bernama create_product yang menerima parameter request untuk menghasilkan form yang berguna menerima input user  untuk tambah data produk ketika data tersebut disubmit pada form.
 
 - Ubah fungsi show_main dengan menambahkan potongan kode berikut "products = Product.objects.all()" dan "'products': products". products akan menyimpan seluruh produk yang ada pada proyek saat ini.
 
 - Buat file baru pada direktori main/templates bernama create_product.html dan isi dengan kode berikut:
+```html
   {% extends 'base.html' %} 
 
   {% block content %}
@@ -156,13 +160,23 @@ Hal tersebut bisa dimanfaatkan penyerang dengan mengarahkan pengguna untuk mengk
   </form>
 
   {% endblock %}
-
+```
   - {% block content %} ... {% endblock %} adalah konten yang akan mengisi placeholder block content pada base.html
   - <form method="POST> karena user akan memberikan input
 
   
 
 2. Tambahkan 4 fungsi views baru untuk melihat objek yang sudah ditambahkan dalam format XML, JSON, XML by ID, dan JSON by ID.
+
+Pada file views.py tambahkan 4 fungsi berikut:
+
+- fungsi "show_xml" yang berfungsi untuk menampilkan representasi semua produk dalam format XML dan dapat diakses pada (url)/xml
+
+- fungsi "show_json" yang berfungsi untuk menampilkan representasi semua produk dalam format JSON dan dapat diakses pada (url)/json
+
+- fungsi "show_xml_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format XML dan dapat diakses pada (url)/xml/(desired_id)
+
+- fungsi "show_json_by_id" yang berfungsi untuk menampilakn representasi produk sesuai id yang diinginkan dalam format JSON dan dapat diakses pada (url)/json/(desired_id)
 
 3. Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2.
 
@@ -177,3 +191,16 @@ Buka file urls.py pada direktori main lalu tambahkan import fungsi-fungsi yang s
 - (url)/xml/(desired_id): Untuk menampilkan representasi product dengan id yang diinginkan dalam format XML
 
 - (url)/xml/(desired_id): Untuk menampilkan representasi product dengan id yang diinginkan dalam format JSON
+
+## Mengakses keempat URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md
+1. XML
+![]https://github.com/najlahanina/petty-paws/blob/main/SS%20XML.png
+
+2. JSON
+![]https://github.com/najlahanina/petty-paws/blob/main/SS%20JSON.png
+
+3. XML by ID
+![]https://github.com/najlahanina/petty-paws/blob/main/SS%20XML%20by%20ID.png
+
+4. JSON by ID
+![]https://github.com/najlahanina/petty-paws/blob/main/SS%20JSON%20by%20ID.png

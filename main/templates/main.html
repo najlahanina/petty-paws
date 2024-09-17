@@ -8,6 +8,9 @@
 <h5>Kelas: </h5>
 <p>{{ kelas }}<p> 
 
+{% if not products %}
+<p>Belum ada data produk pada Petty Paws.</p>
+{% else %}
 <table>
     <tr>
         <th>Name</th>
@@ -16,28 +19,26 @@
         <th>Price</th>
         <th>Categories</th>
         <th>Description</th>
-        </tr>
-    
-    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
-    
+    </tr>
+        
+    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini 
+    {% endcomment %}
     {% for product in products %}
-        <tr>
-            <td>{{product.name}}</td>
-            <td><img src="{{product.image}}" alt="{{product.name}}" style="width: 200px; height: 200px;"></td>
-            <td>{{product.brands}}</td>
-            <td>{{product.price}}</td>
-            <td>{{product.categories}}</td>
-            <td>{{product.description}}</td>
-        </tr>
+    <tr>
+        <td>{{product.name}}</td>
+        <td><img src="{{product.image}}" alt="{{product.name}}" style="width: 200px; height: 200px;"></td>
+        <td>{{product.brands}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.categories}}</td>
+        <td>{{product.description}}</td>
+    </tr>
     {% endfor %}
 </table>
-    
+{% endif %}
+        
 <br />
-    
+        
 <a href="{% url 'main:create_product' %}">
-    <button>
-        Add New Product
-    </button>
+    <button>Add New Product</button>
 </a>
-    
 {% endblock content %}
