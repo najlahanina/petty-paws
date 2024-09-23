@@ -342,8 +342,6 @@ Screenshot hasil akses URL pada Postman
 
 ## Tugas 4
 ## 1. Apa perbedaan antara HttpResponseRedirect() dan redirect()
-Pada Django, HttpResponseRedirect() dan redirect() memiliki fungsi yang mirip yaitu untuk melakukan pengalihan ke URL yang berbeda. Namun, ada perbedaan utama antara keduanya:
-
 1. HttpResponseRedirect():
 
    - Ini adalah objek HTTP response bawaan Django yang secara eksplisit digunakan untuk melakukan pengalihan ke URL tertentu.
@@ -359,7 +357,7 @@ Pada Django, HttpResponseRedirect() dan redirect() memiliki fungsi yang mirip ya
    - Bisa menerima URL, nama view, atau objek model sebagai argumen dan redirect() akan mengurus sisanya.
 
    - Jika diberikan nama view atau model, Django secara otomatis akan mengonversinya menjadi URL menggunakan reverse().
-## 2. Jelaskan cara kerja penghubungan model MoodEntry dengan User!
+## 2. Jelaskan cara kerja penghubungan model Product dengan User!
 Untuk menghubungkan Product dengan User, pertama, di models.py, tambahkan ForeignKey ke model Product untuk mengaitkan setiap produk dengan pengguna tertentu. Hal ini memungkinkan setiap produk memiliki referensi ke pengguna yang membuatnya.
 
 Kemudian, di views.py, pada fungsi create_product, saat pengguna mengirim formulir untuk membuat produk baru, data produk divalidasi dan sebelum disimpan ke basis data, produk tersebut ditandai dengan pengguna yang sedang login menggunakan request.user. Ini memastikan produk yang dibuat terhubung dengan akun pembuatnya.
@@ -386,14 +384,12 @@ Perbedaan antara autentikasi dan otorisasi saat pengguna login:
 
 Bagaimana Django mengimplementasikan kedua konsep tersebut:
 
-Untuk autentikasi, Django menyediakan beberapa fungsi penting. Pertama, authenticate() digunakan untuk memverifikasi kredensial pengguna (username dan password). Jika valid, fungsi ini mengembalikan objek pengguna, dan jika tidak valid, mengembalikan None. Setelah autentikasi berhasil, login() digunakan untuk login pengguna dan membuat sesi, memungkinkan pengguna tetap terhubung ke sistem. Sebaliknya, logout() digunakan untuk mengakhiri sesi pengguna dan mengeluarkannya dari sistem. Django juga menyediakan dekorator @login_required yang memastikan bahwa hanya pengguna yang telah login dapat mengakses view tertentu.
+Untuk autentikasi, Django menyediakan beberapa fungsi. Pertama, authenticate() digunakan untuk memverifikasi kredensial pengguna. Jika valid, fungsi ini mengembalikan objek pengguna, dan jika tidak valid, mengembalikan None. Setelah autentikasi berhasil, login() digunakan untuk login pengguna dan membuat sesi, memungkinkan pengguna tetap terhubung ke sistem. Sebaliknya, logout() digunakan untuk mengakhiri sesi pengguna dan mengeluarkannya dari sistem. Django juga menyediakan dekorator @login_required yang memastikan bahwa hanya pengguna yang telah login dapat mengakses view tertentu.
 
-Untuk otorisasi, Django menggunakan sistem izin (permissions) dan grup (groups). Setiap model di Django memiliki izin bawaan seperti "add", "change", "delete", dan "view", dan izin ini dapat diperiksa menggunakan metode user.has_perm(). Selain itu, Django menyediakan fitur grup, di mana setiap grup dapat memiliki izin tertentu, dan anggota grup tersebut akan mewarisi izin tersebut. Django juga menyediakan dekorator @permission_required yang memastikan pengguna memiliki izin tertentu sebelum bisa mengakses suatu view. Dengan kombinasi autentikasi dan otorisasi ini, Django memungkinkan kontrol akses yang fleksibel dan aman untuk aplikasi web.
+Untuk otorisasi, Django menggunakan sistem izin dan grup. Setiap model di Django memiliki izin bawaan seperti "add", "change", "delete", dan "view", dan izin ini dapat diperiksa menggunakan metode user.has_perm(). Selain itu, Django menyediakan fitur grup, di mana setiap grup dapat memiliki izin tertentu, dan anggota grup tersebut akan mewarisi izin tersebut. Django juga menyediakan dekorator @permission_required yang memastikan pengguna memiliki izin tertentu sebelum bisa mengakses suatu view. Dengan kombinasi autentikasi dan otorisasi ini, Django memungkinkan kontrol akses yang fleksibel dan aman untuk aplikasi web.
 
 ## 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
-Django mengingat pengguna yang telah login dengan menggunakan sesi dan cookies. Ketika pengguna login, Django membuat sesi yang menyimpan informasi pengguna di server dan menciptakan cookie sesi (biasanya sessionid) di sisi klien. Cookie ini dikirim bersama setiap permintaan untuk mengidentifikasi pengguna yang sedang login.
-
-Cookies memiliki beberapa kegunaan lain selain autentikasi. Salah satunya adalah menyimpan preferensi pengguna, seperti pilihan tema tampilan atau bahasa yang dipilih, sehingga pengalaman pengguna menjadi lebih personal. Selain itu, cookies juga digunakan untuk melacak aktivitas pengguna di situs web dengan mencatat halaman yang dikunjungi dan interaksi yang dilakukan, yang membantu pengembang memahami pola penggunaan. Dalam konteks e-commerce, cookies menyimpan informasi keranjang belanja, memungkinkan pengguna untuk melanjutkan berbelanja tanpa kehilangan barang yang telah dipilih
+Django mengingat pengguna yang telah login dengan menggunakan sesi dan cookies. Ketika pengguna login, Django membuat sesi yang menyimpan informasi pengguna di server dan menciptakan cookie sesi (biasanya sessionid) di sisi klien. Cookie ini dikirim bersama setiap permintaan untuk mengidentifikasi pengguna yang sedang login. Cookies memiliki beberapa kegunaan lain selain autentikasi. Salah satunya adalah menyimpan preferensi pengguna, seperti pilihan tema tampilan atau bahasa yang dipilih, sehingga pengalaman pengguna menjadi lebih personal. Selain itu, cookies juga digunakan untuk melacak aktivitas pengguna di situs web dengan mencatat halaman yang dikunjungi dan interaksi yang dilakukan, yang membantu pengembang memahami pola penggunaan.
 
 Penggunaan cookies dapat menjadi tidak aman karena data yang disimpan di dalamnya berisiko diakses oleh pihak yang tidak berwenang jika tidak dikelola dengan baik. Potensi risiko meliputi pencurian informasi pengguna, peretasan sesi, dan penyadapan data sensitif. Untuk mengurangi risiko ini, developer perlu mengikuti praktik keamanan yang baik, seperti mengenkripsi data dalam cookies, menggunakan atribut keamanan seperti HttpOnly dan Secure untuk mencegah akses melalui JavaScript dan memastikan penggunaan HTTPS, serta menyimpan informasi sesi pengguna yang sensitif di server bukan di cookies.
 
