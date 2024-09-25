@@ -575,7 +575,7 @@ Penggunaan cookies dapat menjadi tidak aman karena data yang disimpan di dalamny
   - Daftarkan diri untuk membuat akun
   - Setelah membuat akun, halaman web akan kembali ke awal dan lakukan login sesuai dengan username dan password yang didaftarkan.
   - Tekan tombol add product untuk menambahkan produk dan lakukan tiga kali untuk menambahkan tiga produk.
-  - Tekan tombol logout untuk kembali ke halaman awal dan daftarkan lagi satu akun sesuai dengan langkah sebelumnya
+  - Tekan tombol logout untuk kembali ke halaman awal dan daftarkan lagi satu akun  dan tambah tiga produk lagi sesuai dengan langkah-langkah sebelumnya
 
 3. Menghubungkan model Product dengan User.
 
