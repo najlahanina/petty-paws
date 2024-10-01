@@ -732,7 +732,7 @@ Grid Layout adalah model tata letak dua dimensi yang memungkinkan pengembang unt
 - Membantu dalam menciptakan grid yang responsif dan teratur, cocok untuk desain web modern.
 ## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
 1. Implementasikan fungsi untuk menghapus dan mengedit product.
-<h5>Fungsi Edit<h5>
+FUNGSI EDIT
 - Buka file base.html, tambahkan script cdn tailwind pada bagian head untuk menghubungkan template Django dengan tailwind, seperti berikut:
 ```html
 <script src="https://cdn.tailwindcss.com">
@@ -793,7 +793,9 @@ from django.shortcuts import reverse
     </td>
 ```
 - Jalankan server lalu lihat hasilnya di http://localhost:8000 pada browser 
-<h5>Fungsi Delete<h5>
+
+EDIT PRODUCT
+
 - Buka file views.py dan buat fungsi baru bernama delete_product yang berisi kode berikut:
 ```python
 def delete_product(request, id):
@@ -820,7 +822,9 @@ def delete_product(request, id):
 - Jalankan server lalu lihat hasilnya di http://localhost:8000 pada browser 
 
 2. Kustomisasi halaman login, register, dan tambah product semenarik mungkin.
-<h5>Login<h5>
+
+LOGIN
+
 - Membuat suatu card di tengah web page dengan form yang telah dibuat sebelumnya
 
 - Mengubah style input untuk isian username dan password
@@ -904,7 +908,9 @@ def delete_product(request, id):
   </div>
 </div>
 {% endblock content %}
-<h5>Register<h5>
+```
+REGISTER
+
 - Membuat suatu card di tengah web page dengan form yang telah dibuat sebelumnya
 
 - Mengubah style input untuk isian username, password, dan password confirmation
@@ -981,7 +987,8 @@ def delete_product(request, id):
 </div>
 {% endblock content %}
 ```
-<h5>Add Product<h5>
+ADD PRODUCT
+
 - Membuat suatu card di tengah web page dengan form yang telah dibuat sebelumnya
 
 - Mengubah style warna button dan juga warna text
@@ -1030,6 +1037,7 @@ def delete_product(request, id):
 {% endblock %}
 ```
 3. Jika pada aplikasi belum ada product yang tersimpan, halaman daftar product akan menampilkan gambar dan pesan bahwa belum ada product yang terdaftar.
+
 - Download image yang berformat png dan simpan dengan nama sedih-banget.png lalu masukkan ke direktori static/image.
 
 - Menambahkan kode berikut pada main.html agar image tersebut muncul jika tidak ada produk yang disimpan
@@ -1041,7 +1049,8 @@ def delete_product(request, id):
     </div>
 ```
 4. Jika sudah ada product yang tersimpan, halaman daftar product akan menampilkan detail setiap product dengan menggunakan card
-<h5>Card Info<h5> untuk menampilkan informasi nama dan kelas
+
+CARD INFO untuk menampilkan informasi nama dan kelas
 ```html
 <div class="bg-[#52599D] rounded-xl overflow-hidden border-2 border-[#52599D]">
     <div class="p-4 animate-shine">
@@ -1050,7 +1059,7 @@ def delete_product(request, id):
     </div>
 </div>
 ```
-<h5>Card product<h5> untuk menampilkan daftar produk yang sudah tersimpan dan juga button edit dan delete pada tiap produknya
+CARD PRODUCT untuk menampilkan daftar produk yang sudah tersimpan dan juga button edit dan delete pada tiap produknya
 ```html
 <!-- Kontainer Utama -->
 <div class="flex flex-wrap justify-center gap-5">
