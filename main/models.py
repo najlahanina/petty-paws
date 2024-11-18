@@ -11,9 +11,3 @@ class Product(models.Model):
     price = models.IntegerField()
     categories = models.CharField(max_length=255)
     description = models.TextField()
-
-
-    
-    
-
-    
